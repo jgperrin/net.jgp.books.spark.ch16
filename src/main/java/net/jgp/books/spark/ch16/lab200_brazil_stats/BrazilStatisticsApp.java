@@ -1,16 +1,16 @@
 package net.jgp.books.spark.ch16.lab200_brazil_stats;
 
-import static org.apache.spark.sql.functions.*;
 import static org.apache.spark.sql.functions.col;
+import static org.apache.spark.sql.functions.expr;
+import static org.apache.spark.sql.functions.first;
+import static org.apache.spark.sql.functions.regexp_replace;
 import static org.apache.spark.sql.functions.sum;
+import static org.apache.spark.sql.functions.when;
 
 import org.apache.spark.SparkContext;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
-import org.apache.spark.sql.types.DataTypes;
-import org.apache.spark.sql.types.StructField;
-import org.apache.spark.sql.types.StructType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +41,6 @@ public class BrazilStatisticsApp {
     SparkSession spark = SparkSession.builder()
         .appName("Brazilian municipalities and states")
         .master("local[*]")
-
         .getOrCreate();
     SparkContext sc = spark.sparkContext();
     sc.setCheckpointDir("/tmp");
@@ -70,9 +69,6 @@ public class BrazilStatisticsApp {
         .withColumn("GDP", col("GDP").cast("float"))
         .withColumn("area", regexp_replace(col("area"), ",", "."))
         .withColumn("area", col("area").cast("float"))
-        // df.show(40);
-        // df.printSchema();
-        // df = df
         .groupBy("STATE")
         .agg(
             first("CITY").alias("city"),
