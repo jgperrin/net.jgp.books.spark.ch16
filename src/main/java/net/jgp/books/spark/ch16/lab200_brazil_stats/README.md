@@ -1,46 +1,5 @@
-package net.jgp.books.spark.ch16.lab100_brazil_stats;
 
-import static org.apache.spark.sql.functions.*;
-import static org.apache.spark.sql.functions.col;
-import static org.apache.spark.sql.functions.sum;
 
-import org.apache.spark.sql.Dataset;
-import org.apache.spark.sql.Row;
-import org.apache.spark.sql.SparkSession;
-import org.apache.spark.sql.types.DataTypes;
-import org.apache.spark.sql.types.StructField;
-import org.apache.spark.sql.types.StructType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-/**
- * Orders analytics.
- * 
- * @author jgp
- */
-public class BrazilStatisticsApp {
-  private static Logger log =
-      LoggerFactory.getLogger(BrazilStatisticsApp.class);
-
-  /**
-   * main() is your entry point to the application.
-   * 
-   * @param args
-   */
-  public static void main(String[] args) {
-    BrazilStatisticsApp app = new BrazilStatisticsApp();
-    app.start();
-  }
-
-  /**
-   * The processing code.
-   */
-  private void start() {
-    // Creates a session on a local master
-    SparkSession spark = SparkSession.builder()
-        .appName("Brazilian municipalities and states")
-        .master("local[*]")
-        .getOrCreate();
 
     // Creates the schema
     StructType schema = DataTypes.createStructType(new StructField[] {
@@ -54,7 +13,7 @@ public class BrazilStatisticsApp {
             false),
         DataTypes.createStructField(
             "CAPITAL",
-            DataTypes.BooleanType,
+            DataTypes.IntegerType,
             false),
         DataTypes.createStructField(
             "IBGE_RES_POP",
@@ -70,95 +29,95 @@ public class BrazilStatisticsApp {
             false),
         DataTypes.createStructField(
             "IBGE_DU",
-            DataTypes.LongType,
+            DataTypes.IntegerType,
             false),
         DataTypes.createStructField(
             "IBGE_DU_URBAN",
-            DataTypes.LongType,
+            DataTypes.IntegerType,
             false),
         DataTypes.createStructField(
             "IBGE_DU_RURAL",
-            DataTypes.LongType,
+            DataTypes.IntegerType,
             false),
         DataTypes.createStructField(
             "IBGE_POP",
-            DataTypes.LongType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "IBGE_1",
-            DataTypes.LongType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "IBGE_1-4",
-            DataTypes.LongType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "IBGE_5-9",
-            DataTypes.LongType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "IBGE_10-14",
-            DataTypes.LongType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "IBGE_15-59",
-            DataTypes.LongType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "IBGE_60+",
-            DataTypes.LongType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "IBGE_PLANTED_AREA",
-            DataTypes.IntegerType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "IBGE_CROP_PRODUCTION_$",
-            DataTypes.IntegerType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "IDHM Ranking 2010",
-            DataTypes.IntegerType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "IDHM",
-            DataTypes.DoubleType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "IDHM_Renda",
-            DataTypes.DoubleType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "IDHM_Longevidade",
-            DataTypes.DoubleType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "IDHM_Educacao",
-            DataTypes.DoubleType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "LONG",
-            DataTypes.DoubleType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "LAT",
-            DataTypes.DoubleType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "ALT",
-            DataTypes.DoubleType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "PAY_TV",
-            DataTypes.LongType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "FIXED_PHONES",
-            DataTypes.LongType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "AREA",
-            DataTypes.DoubleType,
+            DataTypes.FloatType,
             false),
         DataTypes.createStructField(
             "REGIAO_TUR",
@@ -170,7 +129,7 @@ public class BrazilStatisticsApp {
             false),
         DataTypes.createStructField(
             "ESTIMATED_POP",
-            DataTypes.LongType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "RURAL_URBAN",
@@ -178,31 +137,31 @@ public class BrazilStatisticsApp {
             false),
         DataTypes.createStructField(
             "GVA_AGROPEC",
-            DataTypes.DoubleType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "GVA_INDUSTRY",
-            DataTypes.DoubleType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "GVA_SERVICES",
-            DataTypes.DoubleType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "GVA_PUBLIC",
-            DataTypes.DoubleType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             " GVA_TOTAL ",
-            DataTypes.DoubleType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "TAXES",
-            DataTypes.DoubleType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "GDP",
-            DataTypes.DoubleType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "POP_GDP",
@@ -210,7 +169,7 @@ public class BrazilStatisticsApp {
             false),
         DataTypes.createStructField(
             "GDP_CAPITA",
-            DataTypes.DoubleType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "GVA_MAIN",
@@ -218,11 +177,11 @@ public class BrazilStatisticsApp {
             false),
         DataTypes.createStructField(
             "MUN_EXPENDIT",
-            DataTypes.LongType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "COMP_TOT",
-            DataTypes.IntegerType,
+            DataTypes.StringType,
             false),
         DataTypes.createStructField(
             "COMP_A",
@@ -368,48 +327,3 @@ public class BrazilStatisticsApp {
             "POST_OFFICES",
             DataTypes.IntegerType,
             false) });
-
-    // Reads a CSV file with header, called BRAZIL_CITIES.csv, stores it in
-    // a dataframe
-    Dataset<Row> df = spark.read().format("csv")
-        .option("header", true)
-        .option("sep", ";")
-        .option("enforceSchema", true)
-        // .option("nullValue", "null")
-        // .option("inferSchema", true)
-        .schema(schema)
-        .load("data/brazil/BRAZIL_CITIES.csv");
-    df.show(10);
-    df.printSchema();
-
-    long t0 = System.currentTimeMillis();
-
-    df = df
-        .orderBy(col("CAPITAL").desc())
-        .withColumn("GDP_corrected", when(col("GDP").isNull(), lit(0)))
-        .groupBy("STATE")
-        .agg(
-            first("CITY").alias("city"),
-            sum("IBGE_RES_POP_BRAS").alias("pop_brazil"),
-            sum("IBGE_RES_POP_ESTR").alias("pop_foreign"),
-            sum("POP_GDP").alias("pop_2016"),
-            sum("GDP_corrected").alias("gdb_2016"),
-            sum("POST_OFFICES").alias("post_offices_ct"),
-            sum("WAL-MART").alias("wal_mart_ct"),
-            sum("MAC").alias("mc_donalds_ct"),
-            sum("Cars").alias("cars_ct"),
-            sum("Motorcycles").alias("moto_ct"),
-            sum("AREA").alias("area"),
-            sum("IBGE_PLANTED_AREA").alias("agr_area"),
-            sum("IBGE_CROP_PRODUCTION_$").alias("agr_prod"),
-            sum("HOTELS").alias("hotels_ct"),
-            sum("BEDS").alias("beds_ct"))
-        .orderBy(col("STATE"))
-        .withColumn("gdp_capita", expr("gdb_2016 / pop_2016"));
-
-    long t1 = System.currentTimeMillis();
-    System.out.println("Aggregation (ms) ... " + (t1 - t0));
-    df.show(40);
-
-  }
-}
