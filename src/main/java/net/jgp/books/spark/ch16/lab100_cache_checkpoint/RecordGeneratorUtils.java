@@ -88,6 +88,7 @@ public abstract class RecordGeneratorUtils {
       System.out.println(recordCreated + " records created");
     }
 
+    df.show(3, false);
     System.out.println("<- createDataframe()");
     return df;
   }

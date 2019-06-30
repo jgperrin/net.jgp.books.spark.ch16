@@ -47,15 +47,22 @@ public class CacheCheckpointApp {
     SparkContext sc = spark.sparkContext();
     sc.setCheckpointDir("/tmp");
 
-    int recordCount = 5000000;
-    long t0 = processDataframe(recordCount, Mode.NO_CACHE_NO_CHECKPOINT);
+    // Specify the number of record to generate
+    int recordCount = 6000000;
+    
+    // Create and process the records without cache or checkpoint
+    //long t0 = processDataframe(recordCount, Mode.NO_CACHE_NO_CHECKPOINT);
+    
+    // Create and process the records with cache
     long t1 = processDataframe(recordCount, Mode.CACHE);
-    long t2 = processDataframe(recordCount, Mode.CHECKPOINT);
+    
+    // Create and process the records with a checkpoint    
+    //long t2 = processDataframe(recordCount, Mode.CHECKPOINT);
 
     System.out.println("\nProcessing times");
-    System.out.println("Without cache ..... " + t0 + " ms");
+    //System.out.println("Without cache ..... " + t0 + " ms");
     System.out.println("With cache ........ " + t1 + " ms");
-    System.out.println("With checkpoint ... " + t2 + " ms");
+    //System.out.println("With checkpoint ... " + t2 + " ms");
   }
 
   /**
