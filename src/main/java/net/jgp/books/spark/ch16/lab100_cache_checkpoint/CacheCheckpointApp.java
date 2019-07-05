@@ -10,14 +10,14 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 
 /**
- * Additions via UDF.
+ * Measuring performance without cache, with cache, and with checkpoint.
  * 
  * @author jgp
  */
 public class CacheCheckpointApp {
   enum Mode {
     NO_CACHE_NO_CHECKPOINT, CACHE, CHECKPOINT
-  };
+  }
 
   private SparkSession spark;
 
@@ -47,22 +47,22 @@ public class CacheCheckpointApp {
     SparkContext sc = spark.sparkContext();
     sc.setCheckpointDir("/tmp");
 
-    // Specify the number of record to generate
-    int recordCount = 6000000;
+    // Specify the number of records to generate
+    int recordCount = 10000000;
     
     // Create and process the records without cache or checkpoint
-    //long t0 = processDataframe(recordCount, Mode.NO_CACHE_NO_CHECKPOINT);
+    long t0 = processDataframe(recordCount, Mode.NO_CACHE_NO_CHECKPOINT);
     
     // Create and process the records with cache
     long t1 = processDataframe(recordCount, Mode.CACHE);
     
     // Create and process the records with a checkpoint    
-    //long t2 = processDataframe(recordCount, Mode.CHECKPOINT);
+    long t2 = processDataframe(recordCount, Mode.CHECKPOINT);
 
     System.out.println("\nProcessing times");
-    //System.out.println("Without cache ..... " + t0 + " ms");
+    System.out.println("Without cache ..... " + t0 + " ms");
     System.out.println("With cache ........ " + t1 + " ms");
-    //System.out.println("With checkpoint ... " + t2 + " ms");
+    System.out.println("With checkpoint ... " + t2 + " ms");
   }
 
   /**
