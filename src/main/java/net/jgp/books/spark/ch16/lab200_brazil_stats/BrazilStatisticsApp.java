@@ -1,6 +1,6 @@
 package net.jgp.books.spark.ch16.lab200_brazil_stats;
 
-import static org.apache.spark.sql.functions.col;
+import static org.apache.spark.sql.functions.*;
 import static org.apache.spark.sql.functions.expr;
 import static org.apache.spark.sql.functions.first;
 import static org.apache.spark.sql.functions.regexp_replace;
@@ -94,7 +94,7 @@ public class BrazilStatisticsApp {
             when(col("MAC").isNull(), 0).otherwise(col("MAC")))
         .withColumn("GDP", regexp_replace(col("GDP"), ",", "."))
         .withColumn("GDP", col("GDP").cast("float"))
-        .withColumn("area", regexp_replace(col("area"), ",", "."))
+        .withColumn("area", regexp_replace(col("area"), ",", ""))
         .withColumn("area", col("area").cast("float"))
         .groupBy("STATE")
         .agg(
@@ -150,6 +150,7 @@ public class BrazilStatisticsApp {
     // Regions per size in km2
     System.out.println("***** Area (squared kilometers)");
     Dataset<Row> areaDf = df
+        .withColumn("area", round(col("area"), 2))
         .drop(
             "pop_2016", "pop_brazil", "pop_foreign", "post_offices_ct",
             "cars_ct", "moto_ct", "mc_donalds_ct", "agr_area", "agr_prod",
