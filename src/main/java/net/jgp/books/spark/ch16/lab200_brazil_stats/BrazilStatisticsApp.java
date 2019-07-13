@@ -43,7 +43,7 @@ public class BrazilStatisticsApp {
   private void start() {
     // Creates a session on a local master
     SparkSession spark = SparkSession.builder()
-        .appName("Brazilian municipalities and states")
+        .appName("Brazil economy")
         .master("local[*]")
         .getOrCreate();
     SparkContext sc = spark.sparkContext();
