@@ -1,9 +1,10 @@
 package net.jgp.books.spark.ch16.lab200_brazil_stats;
 
-import static org.apache.spark.sql.functions.*;
+import static org.apache.spark.sql.functions.col;
 import static org.apache.spark.sql.functions.expr;
 import static org.apache.spark.sql.functions.first;
 import static org.apache.spark.sql.functions.regexp_replace;
+import static org.apache.spark.sql.functions.round;
 import static org.apache.spark.sql.functions.sum;
 import static org.apache.spark.sql.functions.when;
 
@@ -98,7 +99,7 @@ public class BrazilStatisticsApp {
         .withColumn("area", col("area").cast("float"))
         .groupBy("STATE")
         .agg(
-            first("CITY").alias("city"),
+            first("CITY").alias("capital"),
             sum("IBGE_RES_POP_BRAS").alias("pop_brazil"),
             sum("IBGE_RES_POP_ESTR").alias("pop_foreign"),
             sum("POP_GDP").alias("pop_2016"),
@@ -113,6 +114,7 @@ public class BrazilStatisticsApp {
             sum("IBGE_CROP_PRODUCTION_$").alias("agr_prod"),
             sum("HOTELS").alias("hotels_ct"),
             sum("BEDS").alias("beds_ct"))
+        .withColumn("agr_area", expr("agr_area / 100")) // converts hectares to km2
         .orderBy(col("STATE"))
         .withColumn("gdp_capita", expr("gdp_2016 / pop_2016 * 1000"));
     switch (mode) {
@@ -226,15 +228,15 @@ public class BrazilStatisticsApp {
         break;
     }
     System.out.println("****  Per 1 million inhabitants");
+    Dataset<Row> postOfficePopDf = postOfficeDf
+        .drop("post_office_100k_km2", "area")
+        .orderBy(col("post_office_1m_inh").desc());
+    postOfficePopDf.show(5);
+    System.out.println("****  per 100000 km2");
     Dataset<Row> postOfficeArea = postOfficeDf
         .drop("post_office_1m_inh", "pop_2016")
         .orderBy(col("post_office_100k_km2").desc());
     postOfficeArea.show(5);
-    System.out.println("****  per 100000 km2");
-    Dataset<Row> postOfficePopDf = postOfficeDf
-        .drop("post_office_1k_km2", "area")
-        .orderBy(col("post_office_1m_inh").desc());
-    postOfficePopDf.show(5);
     long t7 = System.currentTimeMillis();
     System.out.println(
         "Post offices (ms) ................. " + (t7 - t6) + " / Mode: " + mode);
@@ -258,7 +260,9 @@ public class BrazilStatisticsApp {
     System.out.println("***** Agriculture - usage of land for agriculture");
     Dataset<Row> agricultureDf = df
         .withColumn("agr_area_pct",
-            expr("int(area / agr_area * 1000) / 10"))
+            expr("int(agr_area / area * 1000) / 10"))
+        .withColumn("area",
+            expr("int(area)"))
         .drop(
             "gdp_capita", "pop_foreign", "gdp_2016", "gdp_capita",
             "post_offices_ct", "moto_ct", "cars_ct", "mc_donalds_ct",

@@ -16,7 +16,7 @@ import org.apache.spark.sql.SparkSession;
  */
 public class CacheCheckpointApp {
   enum Mode {
-    NO_CACHE_NO_CHECKPOINT, CACHE, CHECKPOINT
+    NO_CACHE_NO_CHECKPOINT, CACHE, CHECKPOINT, CHECKPOINT_NON_EAGER
   }
 
   private SparkSession spark;
@@ -59,10 +59,14 @@ public class CacheCheckpointApp {
     // Create and process the records with a checkpoint    
     long t2 = processDataframe(recordCount, Mode.CHECKPOINT);
 
+    // Create and process the records with a checkpoint
+    long t3 = processDataframe(recordCount, Mode.CHECKPOINT_NON_EAGER);
+
     System.out.println("\nProcessing times");
-    System.out.println("Without cache ..... " + t0 + " ms");
-    System.out.println("With cache ........ " + t1 + " ms");
-    System.out.println("With checkpoint ... " + t2 + " ms");
+    System.out.println("Without cache ............... " + t0 + " ms");
+    System.out.println("With cache .................. " + t1 + " ms");
+    System.out.println("With checkpoint ............. " + t2 + " ms");
+    System.out.println("With non-eager checkpoint ... " + t3 + " ms");
   }
 
   /**
@@ -83,6 +87,10 @@ public class CacheCheckpointApp {
         break;
 
       case CHECKPOINT:
+        topDf = topDf.checkpoint();
+        break;
+
+      case CHECKPOINT_NON_EAGER:
         topDf = topDf.checkpoint();
         break;
     }
