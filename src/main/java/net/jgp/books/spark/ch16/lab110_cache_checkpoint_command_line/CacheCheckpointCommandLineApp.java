@@ -1,4 +1,4 @@
-package net.jgp.books.spark.ch16.lab100_cache_checkpoint;
+package net.jgp.books.spark.ch16.lab110_cache_checkpoint_command_line;
 
 import static org.apache.spark.sql.functions.col;
 
@@ -9,12 +9,14 @@ import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 
+import net.jgp.books.spark.ch16.lab100_cache_checkpoint.RecordGeneratorUtils;
+
 /**
  * Measuring performance without cache, with cache, and with checkpoint.
  * 
  * @author jgp
  */
-public class CacheCheckpointApp {
+public class CacheCheckpointCommandLineApp {
   enum Mode {
     NO_CACHE_NO_CHECKPOINT, CACHE, CHECKPOINT, CHECKPOINT_NON_EAGER
   }
@@ -27,14 +29,14 @@ public class CacheCheckpointApp {
    * @param args
    */
   public static void main(String[] args) {
-    CacheCheckpointApp app = new CacheCheckpointApp();
-    app.start();
+    CacheCheckpointCommandLineApp app = new CacheCheckpointCommandLineApp();
+    app.start(Integer.parseInt(args[0]));
   }
 
   /**
    * The processing code.
    */
-  private void start() {
+  private void start(int recordCount) {
     // Creates a session on a local master
     this.spark = SparkSession.builder()
         .appName("Example of cache and checkpoint")
@@ -47,9 +49,6 @@ public class CacheCheckpointApp {
     SparkContext sc = spark.sparkContext();
     sc.setCheckpointDir("/tmp");
 
-    // Specify the number of records to generate
-    int recordCount = 6000000;
-    
     // Create and process the records without cache or checkpoint
     long t0 = processDataframe(recordCount, Mode.NO_CACHE_NO_CHECKPOINT);
     

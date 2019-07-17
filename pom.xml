@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>net.jgp.books</groupId>
-	<artifactId>spark-chapter15</artifactId>
+	<artifactId>spark-chapter16</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
@@ -83,6 +83,19 @@
 					<target>${java.version}</target>
 				</configuration>
 			</plugin>
+			<!--   plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.6.0</version>
+				<configuration>
+					<executable>java</executable>
+					<arguments>
+						<argument>-classpath</argument>
+						<classpath />
+						<argument>net.jgp.books.spark.ch16.lab110_cache_checkpoint_command_line.CacheCheckpointCommandLineApp</argument>
+					</arguments>
+				</configuration>
+			</plugin-->
 		</plugins>
 	</build>
 </project>
