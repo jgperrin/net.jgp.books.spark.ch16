@@ -14,6 +14,9 @@ import net.jgp.books.spark.ch16.lab100_cache_checkpoint.RecordGeneratorUtils;
 /**
  * Measuring performance without cache, with cache, and with checkpoint.
  * 
+ * Can be run via the command line:
+ * mvn exec:java -Dexec.mainClass="net.jgp.books.spark.ch16.lab110_cache_checkpoint_command_line.CacheCheckpointCommandLineApp" -Dexec.args="10"
+ * 
  * @author jgp
  */
 public class CacheCheckpointCommandLineApp {
@@ -29,18 +32,32 @@ public class CacheCheckpointCommandLineApp {
    * @param args
    */
   public static void main(String[] args) {
+    if (args.length == 0) {
+      return;
+    }
+    
+    int recordCount = Integer.parseInt(args[0]);
+    String master;
+    if (args.length > 1) {
+      master = args[1];
+    } else {
+      
+    master = "local[*]";}
+    
     CacheCheckpointCommandLineApp app = new CacheCheckpointCommandLineApp();
-    app.start(Integer.parseInt(args[0]));
+    app.start(recordCount, master);
   }
 
   /**
    * The processing code.
    */
-  private void start(int recordCount) {
+  private void start(int recordCount, String master) {
+    System.out.printf("-> start(%d, %s)\n", recordCount, master);
+    
     // Creates a session on a local master
     this.spark = SparkSession.builder()
         .appName("Example of cache and checkpoint")
-        .master("local[*]")
+        .master(master)
         .config("spark.executor.memory", "70g")
         .config("spark.driver.memory", "50g")
         .config("spark.memory.offHeap.enabled", true)
@@ -51,16 +68,17 @@ public class CacheCheckpointCommandLineApp {
 
     // Create and process the records without cache or checkpoint
     long t0 = processDataframe(recordCount, Mode.NO_CACHE_NO_CHECKPOINT);
-    
+
     // Create and process the records with cache
     long t1 = processDataframe(recordCount, Mode.CACHE);
-    
-    // Create and process the records with a checkpoint    
+
+    // Create and process the records with a checkpoint
     long t2 = processDataframe(recordCount, Mode.CHECKPOINT);
 
     // Create and process the records with a checkpoint
     long t3 = processDataframe(recordCount, Mode.CHECKPOINT_NON_EAGER);
-
+    spark.stop();
+    
     System.out.println("\nProcessing times");
     System.out.println("Without cache ............... " + t0 + " ms");
     System.out.println("With cache .................. " + t1 + " ms");
