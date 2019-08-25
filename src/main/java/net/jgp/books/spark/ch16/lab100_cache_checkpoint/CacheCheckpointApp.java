@@ -48,7 +48,7 @@ public class CacheCheckpointApp {
     sc.setCheckpointDir("/tmp");
 
     // Specify the number of records to generate
-    int recordCount = 6000000;
+    int recordCount = 100000;
     
     // Create and process the records without cache or checkpoint
     long t0 = processDataframe(recordCount, Mode.NO_CACHE_NO_CHECKPOINT);
@@ -91,7 +91,7 @@ public class CacheCheckpointApp {
         break;
 
       case CHECKPOINT_NON_EAGER:
-        topDf = topDf.checkpoint();
+        topDf = topDf.checkpoint(false);
         break;
     }
 
