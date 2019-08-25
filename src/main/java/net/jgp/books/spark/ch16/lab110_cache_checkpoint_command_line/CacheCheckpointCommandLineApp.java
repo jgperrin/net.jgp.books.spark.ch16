@@ -14,8 +14,9 @@ import net.jgp.books.spark.ch16.lab100_cache_checkpoint.RecordGeneratorUtils;
 /**
  * Measuring performance without cache, with cache, and with checkpoint.
  * 
- * Can be run via the command line:
- * mvn exec:java -Dexec.mainClass="net.jgp.books.spark.ch16.lab110_cache_checkpoint_command_line.CacheCheckpointCommandLineApp" -Dexec.args="10"
+ * Can be run via the command line: mvn exec:java
+ * -Dexec.mainClass="net.jgp.books.spark.ch16.lab110_cache_checkpoint_command_line.CacheCheckpointCommandLineApp"
+ * -Dexec.args="10"
  * 
  * @author jgp
  */
@@ -35,15 +36,16 @@ public class CacheCheckpointCommandLineApp {
     if (args.length == 0) {
       return;
     }
-    
+
     int recordCount = Integer.parseInt(args[0]);
     String master;
     if (args.length > 1) {
       master = args[1];
     } else {
-      
-    master = "local[*]";}
-    
+
+      master = "local[*]";
+    }
+
     CacheCheckpointCommandLineApp app = new CacheCheckpointCommandLineApp();
     app.start(recordCount, master);
   }
@@ -53,7 +55,7 @@ public class CacheCheckpointCommandLineApp {
    */
   private void start(int recordCount, String master) {
     System.out.printf("-> start(%d, %s)\n", recordCount, master);
-    
+
     // Creates a session on a local master
     this.spark = SparkSession.builder()
         .appName("Example of cache and checkpoint")
@@ -78,7 +80,7 @@ public class CacheCheckpointCommandLineApp {
     // Create and process the records with a checkpoint
     long t3 = processDataframe(recordCount, Mode.CHECKPOINT_NON_EAGER);
     spark.stop();
-    
+
     System.out.println("\nProcessing times");
     System.out.println("Without cache ............... " + t0 + " ms");
     System.out.println("With cache .................. " + t1 + " ms");

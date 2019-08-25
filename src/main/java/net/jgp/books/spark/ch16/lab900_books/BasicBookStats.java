@@ -1,9 +1,11 @@
 package net.jgp.books.spark.ch16.lab900_books;
 
+import static org.apache.spark.sql.functions.col;
+import static org.apache.spark.sql.functions.split;
+
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
-import static org.apache.spark.sql.functions.*;
 
 /**
  * CSV ingestion in a dataframe.
@@ -40,7 +42,7 @@ public class BasicBookStats {
 
     df = df
         .withColumn("main_author", split(col("authors"), "-").getItem(0));
-    
+
     // Shows at most 5 rows from the dataframe
     df.show(5);
   }

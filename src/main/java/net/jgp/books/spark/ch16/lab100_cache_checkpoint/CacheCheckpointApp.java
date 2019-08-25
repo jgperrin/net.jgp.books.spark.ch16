@@ -49,14 +49,14 @@ public class CacheCheckpointApp {
 
     // Specify the number of records to generate
     int recordCount = 100000;
-    
+
     // Create and process the records without cache or checkpoint
     long t0 = processDataframe(recordCount, Mode.NO_CACHE_NO_CHECKPOINT);
-    
+
     // Create and process the records with cache
     long t1 = processDataframe(recordCount, Mode.CACHE);
-    
-    // Create and process the records with a checkpoint    
+
+    // Create and process the records with a checkpoint
     long t2 = processDataframe(recordCount, Mode.CHECKPOINT);
 
     // Create and process the records with a checkpoint

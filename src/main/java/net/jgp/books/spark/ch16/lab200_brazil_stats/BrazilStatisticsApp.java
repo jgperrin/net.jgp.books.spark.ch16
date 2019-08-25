@@ -114,7 +114,8 @@ public class BrazilStatisticsApp {
             sum("IBGE_CROP_PRODUCTION_$").alias("agr_prod"),
             sum("HOTELS").alias("hotels_ct"),
             sum("BEDS").alias("beds_ct"))
-        .withColumn("agr_area", expr("agr_area / 100")) // converts hectares to km2
+        .withColumn("agr_area", expr("agr_area / 100")) // converts hectares
+                                                        // to km2
         .orderBy(col("STATE"))
         .withColumn("gdp_capita", expr("gdp_2016 / pop_2016 * 1000"));
     switch (mode) {
@@ -239,7 +240,8 @@ public class BrazilStatisticsApp {
     postOfficeArea.show(5);
     long t7 = System.currentTimeMillis();
     System.out.println(
-        "Post offices (ms) ................. " + (t7 - t6) + " / Mode: " + mode);
+        "Post offices (ms) ................. " + (t7 - t6) + " / Mode: "
+            + mode);
 
     // Cars and motorcycles per 1k habitants
     System.out.println("***** Vehicles");
