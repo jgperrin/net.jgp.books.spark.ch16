@@ -6,13 +6,12 @@ The examples in this repository are support to the **[Spark in Action, 2nd editi
 
 Welcome to Spark with Java, chapter 16. This chapter is about **checkpointing and caching**.
 
+This code is designed to work with Apache Spark v3.0.0.
+
 Original datasets can be downloaded from:
 * [Goodreads books](https://www.kaggle.com/jealousleopard/goodreadsbooks) by Soumik and coming from Kaggle.
 * [Brazilian Cities](https://www.kaggle.com/crisparada/brazilian-cities) by Christina Parada and coming from Kaggle. 
   
-
-All examples are in Java.
-
 ---
 
 Thank you for supporting [Spark in Action, 2e](http://jgp.net/sia), please share the <3!
