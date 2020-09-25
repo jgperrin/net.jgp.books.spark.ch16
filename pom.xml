@@ -92,6 +92,7 @@
             <argument>-classpath</argument>
             <classpath />
             <argument>net.jgp.books.spark.ch16.lab110_cache_checkpoint_command_line.CacheCheckpointCommandLineApp</argument>
+            <argument>${args}</argument>
           </arguments>
         </configuration>
       </plugin>

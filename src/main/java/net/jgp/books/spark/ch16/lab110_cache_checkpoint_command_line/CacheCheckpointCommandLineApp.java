@@ -42,7 +42,6 @@ public class CacheCheckpointCommandLineApp {
     if (args.length > 1) {
       master = args[1];
     } else {
-
       master = "local[*]";
     }
 
@@ -61,7 +60,7 @@ public class CacheCheckpointCommandLineApp {
         .appName("Example of cache and checkpoint")
         .master(master)
         .config("spark.executor.memory", "70g")
-        .config("spark.driver.memory", "50g")
+        .config("spark.driver.memory", "50g") // might be too late ;)
         .config("spark.memory.offHeap.enabled", true)
         .config("spark.memory.offHeap.size", "16g")
         .getOrCreate();
