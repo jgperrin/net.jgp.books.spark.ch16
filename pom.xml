@@ -89,6 +89,8 @@
         <configuration>
           <executable>java</executable>
           <arguments>
+            <argument>-Xmx8G</argument>
+            <argument>-Xms2G</argument>
             <argument>-classpath</argument>
             <classpath />
             <argument>net.jgp.books.spark.ch16.lab110_cache_checkpoint_command_line.CacheCheckpointCommandLineApp</argument>
