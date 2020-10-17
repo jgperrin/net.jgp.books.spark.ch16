@@ -89,7 +89,7 @@
         <configuration>
           <executable>java</executable>
           <arguments>
-            <argument>-Xmx8G</argument>
+            <argument>-Xmx${Xmx}</argument>
             <argument>-Xms2G</argument>
             <argument>-classpath</argument>
             <classpath />
