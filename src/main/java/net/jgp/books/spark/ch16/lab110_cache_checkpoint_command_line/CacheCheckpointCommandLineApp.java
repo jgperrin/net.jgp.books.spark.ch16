@@ -14,10 +14,18 @@ import net.jgp.books.spark.ch16.lab100_cache_checkpoint.RecordGeneratorUtils;
 /**
  * Measuring performance without cache, with cache, and with checkpoint.
  * 
- * Can be run via the command line: mvn exec:java
- * -Dexec.mainClass="net.jgp.books.spark.ch16.lab110_cache_checkpoint_command_line.CacheCheckpointCommandLineApp"
- * -Dexec.args="10"
+ * Can be run via the command line: 
  * 
+ * @formatter:off
+ * 
+ * mvn -q exec:exec -Dargs="100000" -DXmx=4G 2>/dev/null
+ *                         |              |
+ *                         |              +-- 4GB for Xmx Java memory, 
+ *                         |                  the more records you will 
+ *                         |                  process, the more you will need.              
+ *                         |
+ *                         +-- Number of records to create.
+ * @formatter:on
  * @author jgp
  */
 public class CacheCheckpointCommandLineApp {
