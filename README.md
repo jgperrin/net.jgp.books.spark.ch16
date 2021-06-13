@@ -2,7 +2,7 @@ The examples in this repository are support to the **[Spark in Action, 2nd editi
 
 # Spark in Action, 2nd edition - chapter 16
 
-Welcome to Spark with Java, chapter 16. This chapter is about **checkpointing and caching**.
+Welcome to Spark in Action, 2e, chapter 16. This chapter is about **checkpointing and caching**.
 
 This code is designed to work with Apache Spark v3.0.1.
 
